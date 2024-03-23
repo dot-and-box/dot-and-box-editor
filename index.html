@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>dot and box editor</title>
+    <title>Dot And Box editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dot and box editor</title>
     <style>
@@ -17,14 +17,27 @@
             width: 80%;
         }
 
+        .links {
+            display: flex; margin-bottom: 10px;
+        }
+
+        .links a {
+            margin-right: 10px;
+        }
+
     </style>
     <link href="prism.css" rel="stylesheet" />
     <script crossorigin src="https://dot-and-box.github.io/dot-and-box/dot-and-box.js"></script>
 </head>
 <body>
 <div class="content">
-    <h2>dot and box editor</h2>
-<dot-and-box-editor  style="height: 600px"  code="
+    <h2>Dot And Box editor</h2>
+    <div class="links">
+        <a href="https://github.com/dot-and-box/dot-and-box">Dot and Box repository</a>
+        <a href="https://github.com/dot-and-box/dot-and-box">Documentation</a>
+    </div>
+    <hr>
+<dot-and-box-editor code="
 title: sort with bubble sort
 box id: win at: [-6, 0] size: [2, 1]
 color: rgba(254,193,7,0.6) visible: false

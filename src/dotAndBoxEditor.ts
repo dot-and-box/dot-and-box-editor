@@ -20,7 +20,7 @@ class DotAndBoxEditor extends HTMLElement {
         .content-wrapper {
           overflow: hidden;
           display: flex;
-          flex-wrap: nowrap;
+          flex-wrap: wrap;
           
         }
         .editor {
@@ -48,8 +48,7 @@ class DotAndBoxEditor extends HTMLElement {
           justify-items: center;
           align-items: center;
           padding-left: 5px;
-          padding-right: 5px;
-          border-bottom: 1px solid #ccc;
+          padding-right: 5px;          
         }     
        
         .separator {
@@ -210,8 +209,7 @@ class DotAndBoxEditor extends HTMLElement {
         cursor: help;
         }
 
-
-        
+       
       </style>
       <script src="prism.js"></script>
       <div class="menu-wrapper"> 
