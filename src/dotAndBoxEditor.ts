@@ -69,6 +69,7 @@ class DotAndBoxEditor extends HTMLElement {
         }
         
         .button-icon {
+          width: 36px;
           fill: rgba(23,23,23,0.7);       
         }
         .menu-wrapper button:hover {
