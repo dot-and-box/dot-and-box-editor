@@ -59,7 +59,7 @@ class DotAndBoxEditor extends HTMLElement {
           display: flex;          
           width: max-content            
         }
-        .menu-wrapper button {
+        .menu-wrapper button.rounded {
           width: 36px;
           height: 36px;
           padding: 0;
@@ -214,8 +214,8 @@ class DotAndBoxEditor extends HTMLElement {
       </style>
       <script src="prism.js"></script>
       <div class="menu-wrapper"> 
-          <button id="run-code" title="run code">  
-        <svg class="button-icon" viewBox="0 0 36 36">       
+        <button id="run-code" class="rounded" title="run code">  
+        <svg class="button-icon rounded" viewBox="0 0 36 36">       
            <path d="M 12 10 L 27 17 L 12 24 Z"/>           
         </svg></button>
           <div><input type="checkbox" id="autoplay" title="show controls" checked>autoplay</div>
@@ -223,7 +223,9 @@ class DotAndBoxEditor extends HTMLElement {
           <div><input type="checkbox" id="show-grid" title="show grid">grid</div>
           <div><input type="checkbox" id="show-controls" title="show controls" checked>controls</div>
           <div><input type="checkbox" id="show-experimental" title="show controls">experimental</div>
-          <div class="right-menu"><button id="copy-clipboard" title="copy to clipboard" >📋</button></div> 
+          <div><input type="checkbox" id="toggle-editor" checked title="show/hide editor">editor</div>
+          <div><button id="reformat" title="reformat" >reformat</div>
+          <div class="right-menu"><button id="copy-clipboard" title="copy to clipboard">📋</button></div>           
         </div>
       <div class="content-wrapper">        
         <pre class="editor" spellcheck=false contenteditable></pre>
@@ -237,6 +239,10 @@ class DotAndBoxEditor extends HTMLElement {
         this.dotAndBox = shadow.querySelector('dot-and-box')
         const clipBoardButton: HTMLElement = this.getControl('#copy-clipboard')
         clipBoardButton.onclick = (_: any) => this.copyToClipBoard(this.code)
+
+        const reformatButton: HTMLElement = this.getControl('#reformat')
+        reformatButton.onclick = (_: any) => this.reformat()
+
         const runCodeButton: HTMLElement = this.getControl('#run-code')
         runCodeButton.onclick = (_: any) => this.runCode()
 
@@ -247,6 +253,15 @@ class DotAndBoxEditor extends HTMLElement {
                 this.dotAndBox.setAttribute('grid', true)
             } else {
                 this.dotAndBox.removeAttribute('grid')
+            }
+        }
+
+        const toggleEditor: HTMLElement = this.getControl('#toggle-editor')
+        toggleEditor.oninput = (v: any) => {
+            if (v.target.checked) {
+                this.getEditor().style.display = 'block'
+            } else {
+                this.getEditor().style.display = 'none'
             }
         }
 
@@ -322,14 +337,36 @@ class DotAndBoxEditor extends HTMLElement {
         }
     }
 
+    reformat() {
+        let codeToFormat = this.getCodeFromEditor()
+        let tab = codeToFormat.split(/\r?\n/)
+        let result = [];
+        tab.forEach(line => {
+            let l = line.trim()
+            if (l !== '') {
+                result.push(l + '\n')
+            }
+        })
+        this.updateEditorCode(result.join(''))
+    }
+
     copyToClipBoard(txt: any) {
         this.updateCodeFromEditor()
         navigator.clipboard.writeText(txt);
     }
 
-    updateCodeFromEditor() {
+    getCodeFromEditor() {
         const editor = this.getEditor()
-        this.code = editor.innerText
+        return editor.innerText
+    }
+
+    updateEditorCode(code: string) {
+        const editor = this.getEditor()
+        editor.innerHTML = Prism.highlight(code, window.Prism.languages.dabl, 'dabl')
+    }
+
+    updateCodeFromEditor() {
+        this.code = this.getCodeFromEditor()
         return this.code
     }
 
@@ -348,8 +385,7 @@ class DotAndBoxEditor extends HTMLElement {
 
     updateCode() {
         if (this.shadowRoot) {
-            const editor = this.getEditor()
-            editor.innerHTML = Prism.highlight(this.code, window.Prism.languages.dabl, 'dabl')
+            this.updateEditorCode(this.code)
         }
     }
 
@@ -367,21 +403,6 @@ class DotAndBoxEditor extends HTMLElement {
             }
         }
     }
-
-    // reattachHandler() {
-    //     document.removeEventListener("initialized", this.initializeHandler)
-    //     document.addEventListener("initialized", this.initializeHandler)
-    // }
-
-    // initializeHandler = (evt) => this.onAttachedControlInitialize(evt)
-
-    // onAttachedControlInitialize(evt) {
-    //     if (evt.target === this.dotAndBox) {
-    //         this.code = this.dotAndBox.code
-    //         this.dotAndBox.removeAttribute('experimental')
-    //         this.updateCode()
-    //     }
-    // }
 
     // noinspection JSUnusedGlobalSymbols
     attributeChangedCallback(name: any, _: any, newValue: any) {
