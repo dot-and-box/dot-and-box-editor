@@ -1,6 +1,6 @@
 {
   "name": "dot-and-box-editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "editor for dot-and-box",
   "type": "module",
   "license": "MIT",
@@ -17,7 +17,7 @@
     "vitest": "^0.34.4"
   },
   "dependencies": {
-    "dot-and-box": "^0.0.12",
+    "dot-and-box": "^0.1.0",
     "prismjs": "^1.29.0"
   }
 }
