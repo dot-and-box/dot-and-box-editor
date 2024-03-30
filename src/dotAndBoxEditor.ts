@@ -38,17 +38,16 @@ class DotAndBoxEditor extends HTMLElement {
           outline: 0 solid transparent; 
         }   
         .menu-wrapper {
-          height: 48px;
           margin-top: 0;
           margin-left: 0;
           position: relative;
           display: flex;
           gap: 5px;
-          flex-wrap: nowrap;
+          flex-wrap: wrap;
           justify-items: center;
           align-items: center;
           padding-left: 5px;
-          padding-right: 5px;          
+          padding-right: 5px;
         }     
        
         .separator {
