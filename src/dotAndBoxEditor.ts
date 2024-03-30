@@ -339,9 +339,9 @@ class DotAndBoxEditor extends HTMLElement {
 
     reformat() {
         let codeToFormat = this.getCodeFromEditor()
-        let tab = codeToFormat.split(/\r?\n/)
-        let result = [];
-        tab.forEach(line => {
+        let lines = codeToFormat.split(/\r?\n/)
+        let result: string[] = [];
+        lines.forEach(line => {
             let l = line.trim()
             if (l !== '') {
                 result.push(l + '\n')
