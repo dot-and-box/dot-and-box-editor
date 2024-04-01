@@ -224,6 +224,7 @@ class DotAndBoxEditor extends HTMLElement {
           <div><input type="checkbox" id="show-experimental" title="show controls">experimental</div>
           <div><input type="checkbox" id="toggle-editor" checked title="show/hide editor">editor</div>
           <div><button id="reformat" title="reformat">reformat</div>
+          <div><button id="clear" title="clear">✖</div>
           <div class="right-menu"><button id="copy-clipboard" title="copy to clipboard">📋</button></div>           
         </div>
       <div class="content-wrapper">        
@@ -241,6 +242,8 @@ class DotAndBoxEditor extends HTMLElement {
 
         const reformatButton: HTMLElement = this.getControl('#reformat')
         reformatButton.onclick = (_: any) => this.reformat()
+        const clearButton: HTMLElement = this.getControl('#clear')
+        clearButton.onclick = (_: any) => this.updateEditorCode('title: new ')
 
         const runCodeButton: HTMLElement = this.getControl('#run-code')
         runCodeButton.onclick = (_: any) => this.runCode()
