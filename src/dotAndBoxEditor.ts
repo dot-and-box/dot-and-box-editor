@@ -223,7 +223,7 @@ class DotAndBoxEditor extends HTMLElement {
           <div><input type="checkbox" id="show-controls" title="show controls" checked>controls</div>
           <div><input type="checkbox" id="show-experimental" title="show controls">experimental</div>
           <div><input type="checkbox" id="toggle-editor" checked title="show/hide editor">editor</div>
-          <div><button id="reformat" title="reformat" >reformat</div>
+          <div><button id="reformat" title="reformat">reformat</div>
           <div class="right-menu"><button id="copy-clipboard" title="copy to clipboard">📋</button></div>           
         </div>
       <div class="content-wrapper">        
@@ -346,7 +346,8 @@ class DotAndBoxEditor extends HTMLElement {
                 result.push(l + '\n')
             }
         })
-        this.updateEditorCode(result.join(''))
+        const newCode = result.join('')
+        this.updateEditorCode(newCode)
     }
 
     copyToClipBoard(txt: any) {

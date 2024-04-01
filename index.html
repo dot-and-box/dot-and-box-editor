@@ -11,22 +11,21 @@
 
             overflow-x: hidden;
         }
-        .content{
+        .content {
             margin-left: auto;
             margin-right: auto;
             width: 80%;
         }
-
         .links {
-            display: flex; margin-bottom: 10px;
+            display: flex;
+            margin-bottom: 10px;
         }
 
         .links a {
             margin-right: 10px;
         }
-
     </style>
-    <link href="prism.css" rel="stylesheet" />
+    <link href="prism.css" rel="stylesheet"/>
     <script crossorigin src="https://dot-and-box.github.io/dot-and-box/dot-and-box.js"></script>
 </head>
 <body>
@@ -35,9 +34,14 @@
     <div class="links">
         <a href="https://github.com/dot-and-box/dot-and-box">Dot and Box repository</a>
         <a href="https://dot-and-box.github.io/dot-and-box/">Documentation</a>
+        <div>
+            <button id="save" title="save">💾 </button>
+            <button id="clear" title="clear">clear</button>
+        </div>
+
     </div>
     <hr>
-<dot-and-box-editor code="title: sort with bubble sort
+    <dot-and-box-editor id="the-editor" code="title: sort with bubble sort
 box id: win at: [-6, 0] size: [2, 1]
 color: rgba(254,193,7,0.6) visible: false
 dots ids: 2 1 5 3 4 at: [-3,0] radius: 22
@@ -56,11 +60,32 @@ win -> +[1,0]
 5 <-> 4
 step: 'repeat from start'
 win -> -[3,0]">
-</dot-and-box-editor>
-
+    </dot-and-box-editor>
 </div>
 
 <script type="module" src="/src/dotAndBoxEditor.ts"></script>
+
+<script>
+    const editor = document.querySelector('#the-editor')
+    const saveButton = document.querySelector('#save')
+    const DOT_AND_BOX_CODE = 'dot_and_box_code'
+    saveButton.onclick = () => {
+        window.localStorage.setItem(DOT_AND_BOX_CODE, editor.code)
+    }
+
+    const clearButton = document.querySelector('#clear')
+    clearButton.onclick = () => {
+        window.localStorage.removeItem(DOT_AND_BOX_CODE)
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const savedCode = window.localStorage.getItem('dot_and_box_code')
+        if (savedCode) {
+            editor.setAttribute('code', savedCode)
+        }
+    });
+
+</script>
 
 </body>
 </html>
