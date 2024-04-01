@@ -17,7 +17,7 @@
     "vitest": "^0.34.4"
   },
   "dependencies": {
-    "dot-and-box": "^0.1.0",
+    "dot-and-box": "^0.1.1",
     "prismjs": "^1.29.0"
   }
 }
