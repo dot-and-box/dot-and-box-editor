@@ -2,9 +2,10 @@ import Prism from 'prismjs';
 
 
 class DotAndBoxEditor extends HTMLElement {
-    static observedAttributes = ["code", "readonly"]
+    static observedAttributes = ['code', 'readonly', 'menu']
     dotAndBox: any
     code: string = ''
+    menu: boolean = true
     readonly = false
 
     // noinspection JSUnusedGlobalSymbols
@@ -224,30 +225,36 @@ class DotAndBoxEditor extends HTMLElement {
           <div><input type="checkbox" id="show-experimental" title="show controls">experimental</div>
           <div><input type="checkbox" id="toggle-editor" checked title="show/hide editor">editor</div>
           <div><button id="reformat" title="reformat">reformat</div>
-          <div><button id="clear" title="clear">✖</div>
+           <div><button id="save" title="save">💾</button></div>
           <div class="right-menu"><button id="copy-clipboard" title="copy to clipboard">📋</button></div>           
+          <div><button id="clear" title="clear">✖</div>
         </div>
       <div class="content-wrapper">        
         <pre class="editor" spellcheck=false contenteditable></pre>
         <div style="flex-grow: 1">
           <slot name="player"><dot-and-box controls style="margin:5px; height: 400px"></dot-and-box></slot>
         </div>
-              
-
+             
       </div>
      `
+        const DOT_AND_BOX_CODE = 'dot_and_box_code'
         this.dotAndBox = shadow.querySelector('dot-and-box')
+
         const clipBoardButton: HTMLElement = this.getControl('#copy-clipboard')
         clipBoardButton.onclick = (_: any) => this.copyToClipBoard(this.code)
 
         const reformatButton: HTMLElement = this.getControl('#reformat')
         reformatButton.onclick = (_: any) => this.reformat()
         const clearButton: HTMLElement = this.getControl('#clear')
-        clearButton.onclick = (_: any) => this.updateEditorCode('title: new ')
+        clearButton.onclick = (_: any) => {
+            this.updateEditorCode('title: new ')
+            window.localStorage.removeItem(DOT_AND_BOX_CODE)
+        }
+        const saveButton: HTMLElement = this.getControl('#save')
+        saveButton.onclick = (_: any) => window.localStorage.setItem(DOT_AND_BOX_CODE, this.code)
 
         const runCodeButton: HTMLElement = this.getControl('#run-code')
         runCodeButton.onclick = (_: any) => this.runCode()
-
 
         const showGridCheckBox: HTMLElement = this.getControl('#show-grid')
         showGridCheckBox.oninput = (v: any) => {
@@ -260,11 +267,12 @@ class DotAndBoxEditor extends HTMLElement {
 
         const toggleEditor: HTMLElement = this.getControl('#toggle-editor')
         toggleEditor.oninput = (v: any) => {
-            if (v.target.checked) {
-                this.getEditor().style.display = 'block'
-            } else {
-                this.getEditor().style.display = 'none'
-            }
+            const newDisplay = v.target.checked
+                ? 'block'
+                : 'none'
+            this.getEditor().style.display = newDisplay
+            this.dotAndBox.setAttribute('keyboard', v.target.checked)
+            this.dotAndBox.reset()
         }
 
         const showControlsCheckBox = this.getControl('#show-controls')
@@ -288,13 +296,10 @@ class DotAndBoxEditor extends HTMLElement {
         this.updateAttachedControl()
         this.updateCode()
         this.updateReadonly()
+        this.updateMenu()
     }
 
     extendDABLang() {
-        // Prism.languages['dabl'] = Prism.languages.extend('clike', {
-        //     'keyword': /\b(?:id|ids|at|text|step|title|box|dot|line|dots|boxes|layout|duration|size|color|selected|camera|visible|span|colors)\b/,
-        // });
-
         Prism.languages.dabl = {
             'comment': [
                 {
@@ -327,6 +332,11 @@ class DotAndBoxEditor extends HTMLElement {
             'punctuation': /[{}[\];(),.:]/
         };
 
+    }
+
+    updateMenu() {
+        const editorMenu = this.getControl('.menu-wrapper')
+        editorMenu.style.display = this.menu ? 'flex' : 'none'
     }
 
     runCode() {
@@ -412,6 +422,10 @@ class DotAndBoxEditor extends HTMLElement {
         if (name === 'code') {
             this.code = newValue
             this.updateCode()
+        }
+        if (name === 'menu') {
+            this.menu = newValue.trim().toLowerCase() == 'true'
+            this.updateMenu()
         }
         if (name === 'readonly') {
             this.readonly = newValue != null

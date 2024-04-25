@@ -4,18 +4,19 @@
     <meta charset="UTF-8"/>
     <title>Dot And Box editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dot and box editor</title>
     <style>
         body {
             margin: 0;
 
             overflow-x: hidden;
         }
+
         .content {
             margin-left: auto;
             margin-right: auto;
-            width: 80%;
+            width: 90%;
         }
+
         .links {
             display: flex;
             margin-bottom: 10px;
@@ -30,15 +31,8 @@
 </head>
 <body>
 <div class="content">
-    <h2>Dot And Box editor</h2>
-    <div class="links">
-        <a href="https://github.com/dot-and-box/dot-and-box">Dot and Box repository</a>
-        <a href="https://dot-and-box.github.io/dot-and-box/">Documentation</a>
-        <button id="save" title="save">💾 </button>
-        <button id="clear" title="delete">delete</button>
+    <h2 class="title-header">Dot And Box editor</h2>
 
-    </div>
-    <hr>
     <dot-and-box-editor id="the-editor" code="title: sort with bubble sort
 box id: win at: [-6, 0] size: [2, 1]
 color: rgba(254,193,7,0.6) visible: false
@@ -59,29 +53,44 @@ win -> +[1,0]
 step: 'repeat from start'
 win -> -[3,0]">
     </dot-and-box-editor>
+
+    <div class="links">
+        <a href="https://github.com/dot-and-box/dot-and-box">Dot and Box repository</a>
+        <a href="https://dot-and-box.github.io/dot-and-box/">Documentation</a>
+    </div>
+
 </div>
 
 <script type="module" src="/src/dotAndBoxEditor.ts"></script>
 
 <script>
     const editor = document.querySelector('#the-editor')
-    const saveButton = document.querySelector('#save')
-    const DOT_AND_BOX_CODE = 'dot_and_box_code'
-    saveButton.onclick = () => {
-        window.localStorage.setItem(DOT_AND_BOX_CODE, editor.code)
-    }
-
-    const clearButton = document.querySelector('#clear')
-    clearButton.onclick = () => {
-        window.localStorage.removeItem(DOT_AND_BOX_CODE)
-    }
-
     document.addEventListener("DOMContentLoaded", function () {
         const savedCode = window.localStorage.getItem('dot_and_box_code')
         if (savedCode) {
             editor.setAttribute('code', savedCode)
         }
     });
+    const titleElem = document.querySelector('.title-header')
+
+    titleElem.addEventListener('dblclick', (_) => {
+        titleElem.setAttribute('contenteditable', true)
+    });
+
+    titleElem.addEventListener('input', (_) => {
+        let newTitle = titleElem.innerText
+        if (newTitle.includes('\n')) {
+            newTitle = newTitle.trim()
+            titleElem.innerText = newTitle
+            document.title = newTitle
+            titleElem.setAttribute('contenteditable', false)
+            const editorControlsVisible = document.title.includes('editor')
+            const links = document.querySelector('.links')
+            links.style.display = editorControlsVisible ? 'block' : 'none'
+            editor.setAttribute('menu', editorControlsVisible)
+        }
+    });
+
 
 </script>
 
