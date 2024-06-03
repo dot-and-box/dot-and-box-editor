@@ -232,7 +232,7 @@ class DotAndBoxEditor extends HTMLElement {
       <div class="content-wrapper">        
         <pre class="editor" spellcheck=false contenteditable></pre>
         <div style="flex-grow: 1">
-          <slot name="player"><dot-and-box controls style="margin:5px; height: 400px"></dot-and-box></slot>
+          <slot name="player"><dot-and-box controls style="margin:5px; height: 800px"></dot-and-box></slot>
         </div>
              
       </div>
