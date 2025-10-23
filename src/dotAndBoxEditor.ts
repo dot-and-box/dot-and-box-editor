@@ -10,7 +10,7 @@ class DotAndBoxEditor extends HTMLElement {
 
     // noinspection JSUnusedGlobalSymbols
     connectedCallback() {
-        const shadow = this.attachShadow({mode: "open"})
+        const shadow = this.attachShadow({ mode: "open" })
         shadow.innerHTML = `
       <link href="./lib/prism.js" rel="stylesheet" type="text/css">  
       <link href="./lib/prism.css" rel="stylesheet" type="text/css">  
@@ -231,11 +231,12 @@ class DotAndBoxEditor extends HTMLElement {
         </div>
       <div class="content-wrapper">        
         <pre class="editor" spellcheck=false contenteditable></pre>
-        <div style="flex-grow: 1">
-          <slot name="player"><dot-and-box controls style="margin:5px; height: 800px"></dot-and-box></slot>
-        </div>
-             
+            
       </div>
+      <div style="flex-grow: 1">
+          <slot name="player"><dot-and-box controls style="margin:5px; height: 800px"></dot-and-box></slot>
+      </div>
+     
      `
         const DOT_AND_BOX_CODE = 'dot_and_box_code'
         this.dotAndBox = shadow.querySelector('dot-and-box')

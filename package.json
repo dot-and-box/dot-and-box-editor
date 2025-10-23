@@ -1,23 +1,23 @@
 {
-  "name": "dot-and-box-editor",
-  "version": "0.0.2",
-  "description": "editor for dot-and-box",
-  "type": "module",
-  "license": "MIT",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "test": "vitest run"
-  },
-  "devDependencies": {
-    "@types/prismjs": "^1.26.3",
-    "typescript": "^5.0.2",
-    "vite": "^5.0.12",
-    "vitest": "^0.34.4"
-  },
-  "dependencies": {
-    "dot-and-box": "^0.1.8",
-    "prismjs": "^1.29.0"
-  }
+    "name": "dot-and-box-editor",
+    "version": "0.0.2",
+    "description": "editor for dot-and-box",
+    "type": "module",
+    "license": "MIT",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
+        "test": "vitest run"
+    },
+    "devDependencies": {
+        "@types/prismjs": "^1.26.3",
+        "typescript": "^5.0.2",
+        "vite": "^5.0.12",
+        "vitest": "^0.34.4"
+    },
+    "dependencies": {
+        "dot-and-box": "^0.1.9",
+        "prismjs": "^1.29.0"
+    }
 }
