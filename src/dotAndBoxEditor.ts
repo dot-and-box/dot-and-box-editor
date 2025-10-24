@@ -280,7 +280,7 @@ class DotAndBoxEditor extends HTMLElement {
         }
 
         const toggleEditor: HTMLElement = this.getControl('#toggle-editor')
-        toggleEditor.onclick = (v: any) => {
+        toggleEditor.onclick = (_: any) => {
             this.editorOpened = !this.editorOpened
             const newHeight = this.editorOpened
                 ? 'auto'
