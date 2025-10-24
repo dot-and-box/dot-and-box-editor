@@ -7,6 +7,7 @@ class DotAndBoxEditor extends HTMLElement {
     code: string = ''
     menu: boolean = true
     readonly = false
+    editorOpened = true;
 
     // noinspection JSUnusedGlobalSymbols
     connectedCallback() {
@@ -19,12 +20,13 @@ class DotAndBoxEditor extends HTMLElement {
       <style>
         :host { display: block;  padding: 0; }
         .content-wrapper {
+          position: relative;
           overflow: hidden;
           display: flex;
           flex-wrap: wrap;
-          
         }
         .editor {
+          padding: 10px;
           line-height:1.2em;
           background-size:2.4em 2.4em;
           background-origin:content-box;
@@ -32,9 +34,18 @@ class DotAndBoxEditor extends HTMLElement {
           text-align:justify;
           font-family: monospace;
           overflow: auto;
-          width: max-content;
           flex-grow: 1;
-        }        
+          overflow: hidden;
+        }
+        .toggle {
+          cursor: pointer;
+          position: absolute;
+          bottom: 15px;
+          height: 25px;
+          width: 50px;
+          right: 5px;
+          
+        }
         [contenteditable]:focus { 
           outline: 0 solid transparent; 
         }   
@@ -53,11 +64,6 @@ class DotAndBoxEditor extends HTMLElement {
        
         .separator {
           flex-grow:1;
-        }
-        .right-menu {
-          flex-grow: ;
-          display: flex;          
-          width: max-content            
         }
         .menu-wrapper button.rounded {
           width: 36px;
@@ -219,22 +225,29 @@ class DotAndBoxEditor extends HTMLElement {
            <path d="M 12 10 L 27 17 L 12 24 Z"/>           
         </svg></button>
           <div><input type="checkbox" id="autoplay" title="show controls" checked>autoplay</div>
-          <span class="separator"></span>
           <div><input type="checkbox" id="show-grid" title="show grid">grid</div>
           <div><input type="checkbox" id="show-controls" title="show controls" checked>controls</div>
           <div><input type="checkbox" id="show-experimental" title="show controls">experimental</div>
-          <div><input type="checkbox" id="toggle-editor" checked title="show/hide editor">editor</div>
           <div><button id="reformat" title="reformat">reformat</div>
            <div><button id="save" title="save">💾</button></div>
           <div class="right-menu"><button id="copy-clipboard" title="copy to clipboard">📋</button></div>           
           <div><button id="clear" title="clear">✖</div>
         </div>
       <div class="content-wrapper">        
-        <pre class="editor" spellcheck=false contenteditable></pre>
-            
+        <pre class="editor" spellcheck=false contenteditable>
+        </pre>   
+        <div id="toggle-editor" class="toggle">
+<svg class="button-icon" viewBox="0 0 36 36">    
+                  <g id="SVGRepo_iconCarrier"> 
+                      <path d="M22,1H10C6.1,1,3,4.1,3,8s3.1,7,7,7h12c3.9,0,7-3.1,7-7S25.9,1,22,1z M22,12c-2.2,0-4-1.8-4-4s1.8-4,4-4s4,1.8,4,4 S24.2,12,22,12z"></path> 
+                      <path d="M22,17H10c-3.9,0-7,3.1-7,7s3.1,7,7,7h12c3.9,0,7-3.1,7-7S25.9,17,22,17z M10,28c-2.2,0-4-1.8-4-4s1.8-4,4-4s4,1.8,4,4 S12.2,28,10,28z"></path> 
+                  </g>
+        </svg>
+
+          </div>
       </div>
-      <div style="flex-grow: 1">
-          <slot name="player"><dot-and-box controls style="margin:5px; height: 800px"></dot-and-box></slot>
+      <div>
+          <slot name="player"><dot-and-box controls style="margin:5px; height: 600px"></dot-and-box></slot>
       </div>
      
      `
@@ -267,12 +280,12 @@ class DotAndBoxEditor extends HTMLElement {
         }
 
         const toggleEditor: HTMLElement = this.getControl('#toggle-editor')
-        toggleEditor.oninput = (v: any) => {
-            const newDisplay = v.target.checked
-                ? 'block'
-                : 'none'
-            this.getEditor().style.display = newDisplay
-            this.dotAndBox.setAttribute('keyboard', v.target.checked)
+        toggleEditor.onclick = (v: any) => {
+            this.editorOpened = !this.editorOpened
+            const newHeight = this.editorOpened
+                ? 'auto'
+                : '15px'
+            this.getEditor().style.height = newHeight
             this.dotAndBox.reset()
         }
 

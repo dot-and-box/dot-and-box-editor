@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Dot And Box editor</title>
+    <title>Dot And Box Editor</title>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -10,7 +10,6 @@
     <style>
       body {
         margin: 0;
-
         overflow-x: hidden;
       }
 
@@ -21,12 +20,19 @@
       }
 
       .links {
+        position: relative;
+        padding-top: 20px;
+        padding-left: 5px;
         display: flex;
         margin-bottom: 10px;
       }
 
       .links a {
         margin-right: 10px;
+      }
+
+      .title-header {
+        margin-left: 10px;
       }
     </style>
     <link href="prism.css" rel="stylesheet" />
@@ -37,12 +43,15 @@
   </head>
   <body>
     <div class="content">
-      <h2 class="title-header">Dot And Box editor</h2>
+      <h2 class="title-header">
+        <span style="color: red">dot</span> and
+        <span style="color: #5e35b1">box</span> editor
+      </h2>
 
       <dot-and-box-editor
         id="the-editor"
         code="title: sort with bubble sort
-box id: win at: [-6, 0] size: [2, 1]
+box id: win at: [-6, 0] size: [2, 1] color: yellow
 color: rgba(254,193,7,0.6) visible: false
 dots ids: 2 1 5 3 4 at: [-3,0] radius: 22
 step: '(1) select first two numbers' duration: 0.8s
