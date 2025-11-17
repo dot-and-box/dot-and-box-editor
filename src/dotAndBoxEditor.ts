@@ -26,7 +26,7 @@ class DotAndBoxEditor extends HTMLElement {
           flex-wrap: wrap;
         }
         .editor {
-          padding: 10px;
+          padding: 5px;
           line-height:1.2em;
           background-size:2.4em 2.4em;
           background-origin:content-box;
@@ -247,7 +247,7 @@ class DotAndBoxEditor extends HTMLElement {
           </div>
       </div>
       <div>
-          <slot name="player"><dot-and-box controls style="margin:5px; height: 600px"></dot-and-box></slot>
+          <slot name="player"><dot-and-box id=player controls style="margin:5px; height: 400px"></dot-and-box></slot>
       </div>
      
      `
@@ -285,8 +285,13 @@ class DotAndBoxEditor extends HTMLElement {
             const newHeight = this.editorOpened
                 ? 'auto'
                 : '15px'
+            const newPlayerHeight = this.editorOpened
+                ? '400px'
+                : '850px'
+
             this.getEditor().style.height = newHeight
             this.dotAndBox.reset()
+            this.dotAndBox.style.height = newPlayerHeight
         }
 
         const showControlsCheckBox = this.getControl('#show-controls')
