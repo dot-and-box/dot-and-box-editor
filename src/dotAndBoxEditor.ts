@@ -247,7 +247,7 @@ class DotAndBoxEditor extends HTMLElement {
           </div>
       </div>
       <div>
-          <slot name="player"><dot-and-box id=player controls style="margin:5px; height: 400px"></dot-and-box></slot>
+          <slot name="player"><dot-and-box id=player controls keyboard style="margin:5px; height: 400px"></dot-and-box></slot>
       </div>
      
      `
