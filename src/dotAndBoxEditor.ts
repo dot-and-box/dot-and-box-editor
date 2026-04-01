@@ -291,8 +291,10 @@ class DotAndBoxEditor extends HTMLElement {
             this.getEditor().style.display =  this.editorOpened ? 'block' : 'none' // = newHeight
             this.dotAndBox.reset()
             this.dotAndBox.style.height = newPlayerHeight
-            const editorHeader = document.querySelector('.title-header')
-            editorHeader.style.display =  this.editorOpened ? 'block' : 'none';
+            const editorHeader = document.querySelector('.title-header') as HTMLElement
+            if(editorHeader) {
+                editorHeader.style.display = this.editorOpened ? 'block' : 'none';
+            }
         }
 
         const showControlsCheckBox = this.getControl('#show-controls')
