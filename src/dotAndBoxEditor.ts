@@ -40,7 +40,7 @@ class DotAndBoxEditor extends HTMLElement {
         .toggle {
           cursor: pointer;
           position: absolute;
-          bottom: 15px;
+          top: 15px;
           height: 25px;
           width: 50px;
           right: 5px;
@@ -50,7 +50,7 @@ class DotAndBoxEditor extends HTMLElement {
           outline: 0 solid transparent; 
         }   
         .menu-wrapper {
-          margin-top: 0;
+          margin-top: 5px;
           margin-left: 0;
           position: relative;
           display: flex;
@@ -224,10 +224,11 @@ class DotAndBoxEditor extends HTMLElement {
         <svg class="button-icon rounded" viewBox="0 0 36 36">       
            <path d="M 12 10 L 27 17 L 12 24 Z"/>           
         </svg></button>
-          <div><input type="checkbox" id="autoplay" title="show controls" checked>autoplay</div>
+          <div><input type="checkbox" id="autoplay" title="autoplay" checked>autoplay</div>
+          <div><input type="checkbox" id="loop" title="loop" >loop</div>
           <div><input type="checkbox" id="show-grid" title="show grid">grid</div>
           <div><input type="checkbox" id="show-controls" title="show controls" checked>controls</div>
-          <div><input type="checkbox" id="show-experimental" title="show controls">experimental</div>
+          <div><input type="checkbox" id="show-experimental" title="show experimental">experimental</div>
           <div><button id="reformat" title="reformat">reformat</div>
            <div><button id="save" title="save">💾</button></div>
           <div class="right-menu"><button id="copy-clipboard" title="copy to clipboard">📋</button></div>           
@@ -236,18 +237,18 @@ class DotAndBoxEditor extends HTMLElement {
       <div class="content-wrapper">        
         <pre class="editor" spellcheck=false contenteditable>
         </pre>   
-        <div id="toggle-editor" class="toggle">
-<svg class="button-icon" viewBox="0 0 36 36">    
+ 
+      </div>
+      <div>
+          <div id="toggle-editor" class="toggle">
+            <svg class="button-icon" viewBox="0 0 36 36">    
                   <g id="SVGRepo_iconCarrier"> 
                       <path d="M22,1H10C6.1,1,3,4.1,3,8s3.1,7,7,7h12c3.9,0,7-3.1,7-7S25.9,1,22,1z M22,12c-2.2,0-4-1.8-4-4s1.8-4,4-4s4,1.8,4,4 S24.2,12,22,12z"></path> 
                       <path d="M22,17H10c-3.9,0-7,3.1-7,7s3.1,7,7,7h12c3.9,0,7-3.1,7-7S25.9,17,22,17z M10,28c-2.2,0-4-1.8-4-4s1.8-4,4-4s4,1.8,4,4 S12.2,28,10,28z"></path> 
                   </g>
-        </svg>
-
-          </div>
-      </div>
-      <div>
-          <slot name="player"><dot-and-box id=player controls keyboard style="margin:5px; height: 400px"></dot-and-box></slot>
+           </svg>
+       </div>
+          <slot name="player"><dot-and-box id=player controls keyboard experimental style="margin:5px; height: 400px"></dot-and-box></slot>
       </div>
      
      `
@@ -282,16 +283,16 @@ class DotAndBoxEditor extends HTMLElement {
         const toggleEditor: HTMLElement = this.getControl('#toggle-editor')
         toggleEditor.onclick = (_: any) => {
             this.editorOpened = !this.editorOpened
-            const newHeight = this.editorOpened
-                ? 'auto'
-                : '15px'
+
             const newPlayerHeight = this.editorOpened
                 ? '400px'
                 : '850px'
 
-            this.getEditor().style.height = newHeight
+            this.getEditor().style.display =  this.editorOpened ? 'block' : 'none' // = newHeight
             this.dotAndBox.reset()
             this.dotAndBox.style.height = newPlayerHeight
+            const editorHeader = document.querySelector('.title-header')
+            editorHeader.style.display =  this.editorOpened ? 'block' : 'none';
         }
 
         const showControlsCheckBox = this.getControl('#show-controls')
@@ -300,6 +301,15 @@ class DotAndBoxEditor extends HTMLElement {
                 this.dotAndBox.setAttribute('controls', true)
             } else {
                 this.dotAndBox.removeAttribute('controls')
+            }
+        }
+
+        const loopCheckBox: HTMLElement = this.getControl('#loop')
+        loopCheckBox.oninput = (v: any) => {
+            if (v.target.checked) {
+                this.dotAndBox.setAttribute('loop', true)
+            } else {
+                this.dotAndBox.removeAttribute('loop')
             }
         }
 
