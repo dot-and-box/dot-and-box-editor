@@ -227,6 +227,7 @@ class DotAndBoxEditor extends HTMLElement {
           <div><input type="checkbox" id="autoplay" title="autoplay" checked>autoplay</div>
           <div><input type="checkbox" id="loop" title="loop" >loop</div>
           <div><input type="checkbox" id="show-grid" title="show grid">grid</div>
+          <div><input type="checkbox" id="use-keyboard" title="use keyboard">keyboard</div>
           <div><input type="checkbox" id="show-controls" title="show controls" checked>controls</div>
           <div><input type="checkbox" id="show-experimental" title="show experimental">experimental</div>
           <div><button id="reformat" title="reformat">reformat</div>
@@ -248,7 +249,7 @@ class DotAndBoxEditor extends HTMLElement {
                   </g>
            </svg>
        </div>
-          <slot name="player"><dot-and-box id=player controls keyboard experimental style="margin:5px; height: 400px"></dot-and-box></slot>
+          <slot name="player"><dot-and-box id=player controls experimental style="margin:5px; height: 400px"></dot-and-box></slot>
       </div>
      
      `
@@ -294,6 +295,15 @@ class DotAndBoxEditor extends HTMLElement {
             const editorHeader = document.querySelector('.title-header') as HTMLElement
             if(editorHeader) {
                 editorHeader.style.display = this.editorOpened ? 'block' : 'none';
+            }
+        }
+
+        const useKeyboardCheckBox = this.getControl('#use-keyboard')
+        useKeyboardCheckBox.oninput = (v: any) => {
+            if (v.target.checked) {
+                this.dotAndBox.setAttribute('keyboard', true)
+            } else {
+                this.dotAndBox.removeAttribute('keyboard')
             }
         }
 
