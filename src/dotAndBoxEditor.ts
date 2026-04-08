@@ -296,6 +296,10 @@ class DotAndBoxEditor extends HTMLElement {
             if(editorHeader) {
                 editorHeader.style.display = this.editorOpened ? 'block' : 'none';
             }
+            const menu = this.getControl('.menu-wrapper')
+            menu.style.display = this.editorOpened ? 'flex' : 'none';
+            const links = document.querySelector('.links') as HTMLElement
+            links.style.display =  this.editorOpened ? 'block' : 'none';
         }
 
         const useKeyboardCheckBox = this.getControl('#use-keyboard')
