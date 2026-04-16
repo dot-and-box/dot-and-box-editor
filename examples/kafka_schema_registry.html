@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Schema registry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <style>
+    body {
+      margin: 10px auto;
+      overflow-x: hidden;
+    }
+
+    .content {
+      margin-left: auto;
+      margin-right: auto;
+      width: 95%;
+    }
+
+    .links {
+      position: relative;
+      padding-top: 20px;
+      padding-left: 5px;
+      display: flex;
+      margin-bottom: 5px;
+    }
+
+    .links a {
+      margin-right: 10px;
+    }
+
+  </style>
+  <link href="prism.css" rel="stylesheet" />
+  <script crossorigin src="https://dot-and-box.github.io/dot-and-box/dot-and-box.js"></script>
+</head>
+<body>
+<div class="content">
+
+  <dot-and-box
+          controls keyboard
+          style="height: 900px"
+          code="
+title: 'Schema registry (AVRO)'
+box id: topic text: 'Kafka topic A' at: [0,-2] size: [6.5,5] color: white textColor: black borderColor: black align: left verticalAlign: top
+box id: producer text: 'producer' at: [-8.3,-2]  size: [5, 5] color: orange
+box id: consumer text: 'consumer' at: [9.5,-2]  size: [5, 5] color: purple
+box id: schema_registry text: 'schema registry' at: [-0,-7]  size: [6.5, 3] color: green
+line id: A at: [-3.3,0.5] end: [0,0.5] color: black width: 2
+line id: B at: [6.5,0.5] end: [9.5,0.5] color: black width: 2
+dot id: s1 text: 's1' at: [-4.8,0] radius: 25 visible: false
+dot id: ss1  text: 'sid: 1' at: [10,0] radius: 25 visible: false
+box id: msg  text: 'payload: ABC' at: [-6.5,-0.5] size: [2,2]  visible: false
+step: 'create message'
+msg <- visible: true
+
+step: 'request schema id'
+s1 <- visible: true,  s1 -> +[5,-5.2]
+step: 'assign schema id'
+s1 <- text: 's1,id:1',s1 *-> s2, s2 -> -[5,-5.2]
+step: 'encoding message'
+msg <- text: 'sid: 1, payload: [...]'
+step: 'publish message' duration: 2s
+s2 <- visible: false, msg -> +[8.9,0]
+step: 'consume message' duration: 2s
+msg <- visible: true, msg -> +[8.9,0]
+step: 'get schema by id'
+ss1 <- visible: true, ss1 -> +[-6,-5.5]
+step: 'return schema by id'
+ss1 <- text: 's1'
+ss1 -> +[6,5.5]
+step: 'decode message by schema'
+msg <- text: 'sid: 1, payload: ABC'
+"
+  >
+  </dot-and-box>
+  <div class="links">
+    <a href="https://github.com/dot-and-box/dot-and-box"
+    >Dot and Box repository</a
+    >
+    <a href="https://dot-and-box.github.io/dot-and-box/">Documentation</a>
+  </div>
+</div>
+
+
+
+</body>
+</html>
