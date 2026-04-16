@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kafka Retention</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <style>
+    body {
+      margin: 10px auto;
+      overflow-x: hidden;
+    }
+
+    .content {
+      margin-left: auto;
+      margin-right: auto;
+      width: 95%;
+    }
+
+    .links {
+      position: relative;
+      padding-top: 20px;
+      padding-left: 5px;
+      display: flex;
+      margin-bottom: 5px;
+    }
+
+    .links a {
+      margin-right: 10px;
+    }
+
+  </style>
+  <link href="prism.css" rel="stylesheet" />
+  <script crossorigin src="https://dot-and-box.github.io/dot-and-box/dot-and-box.js"></script>
+</head>
+<body>
+<div class="content">
+
+  <dot-and-box
+          controls keyboard
+          style="height: 900px"
+          code="
+title: 'Topic cleanup.policy=delete'
+box id: topic text: topic at: [-2.2,-3.2] size: [7.4,6.4] color: white textColor: black borderColor: black align: left verticalAlign: top
+boxes ids: 'partition 0' 'partition 1' 'partition 2' at: [-2,-2] size: [7,1.5] span: 0.2 layout: row
+line id: A at: [-4,0.5] end: [-2.2,0.5] color: black width: 2
+line id: B at: [5,0.5] end: [7,-1.2] color: black width: 2 visible: false
+line id: C at: [5,-1.2] end: [7,-1.2] color: black width: 2 visible: false
+line id: D at: [5, 2.2] end: [7, 2.2] color: black width: 2 visible: false
+box id: consumer text: 'consumer group' at: [6.2,-3.2] size: [7.4,6.4] color: white textColor: black borderColor: black align: left verticalAlign: top visible: false
+box id: consumer1 text: 'consumer 1' at: [7,-2]  size: [5, 1.5] visible: false
+box id: consumer2 text: 'consumer 2' at: [7,1.4]  size: [5, 1.5] visible: false
+dot id: p_1 text: ' k:1 ' at: [-4.8,0] radius: 25
+dot id: p_2  text: ' k:2 ' at: [-4.8,0] radius: 25
+dot id: p_3  text: ' k:3 ' at: [-4.8,0] radius: 25
+dot id: pp_1  text: ' k:4 ' at: [-4.8,0] radius: 25
+dot id: ppp_1  text: ' k:5 ' at: [-4.8,0] radius: 25
+box id: producer text: 'producer' at: [-5.3,-2]  size: [2, 4.9] color: orange
+step: 'key: 1 mod 3 => partition 1'
+p_1 -> +[3,0]
+step: 'key: 2 mod 3 => partition 2'
+p_2 -> +[2,0]
+p_2 -> +[1,1.7]
+step: 'key: 3 mod 3 => partition 0'
+p_3 -> +[2,0]
+p_3 -> +[1,-1.7]
+step: 'fourth'
+p_ -> +[1.2,0], pp_1 -> +[3,0]
+step: 'fifth'
+p_ -> +[1,0], pp_ -> +[1,0]
+step: 'sixth'
+p_ -> +[1,0], pp_ -> +[1,0]
+step: 'seventh'
+ppp_1 -> +[2,0], p_ -> +[1,0], pp_ -> +[1,0]
+ppp_1 -> +[1,1.7]
+step: 'consumer appears' duration: 0.1s condition: producer.selected
+consumer <- visible: true, consumer1 <- visible: true, consumer2 <- visible: true, B <- visible: true, C <- visible: true, D <- visible: true
+p_1 *-> pc_1, p_2 *-> pc_2, p_3 *-> pc_3
+step: 'consumer gets messages' condition: producer.selected
+ppp_ -> +[1,0], p_ -> +[1,0], pc_2 -> +[5,0], pc_1 -> +[5,-1.68], pc_3 -> +[6.2,0],  pp_ -> +[1,0]
+step: 'consumer gets messages 1' condition: producer.selected
+ppp_ -> +[1,0], p_ -> +[2,0], pp_ -> +[1,0], pp_1 *-> ppc_1, ppp_1 *-> pppc_1, ppc_1 -> +[5,-1.68], pppc_1 -> +[8,0], pc_ -> +[1,0]
+p_ <- visible: false
+step: 'retention with consumer' condition: producer.selected
+pp_ -> +[2,0], ppp_ -> +[5,0]
+pp_ <- visible: false, ppp_1 <- visible: false
+step: 'retention' condition: !consumer.visible
+ppp_ -> +[1,0], p_ -> +[1,0], pp_ -> +[1,0]
+step: 'retention2' condition: !consumer.visible
+ppp_ -> +[1,0], p_ -> +[2,0], pp_ -> +[1.5,0]
+p_ <- visible: false
+step: 'retention3' condition: !consumer.visible
+ppp_ -> +[5,0], pp_ -> +[2,0]
+ppp_ <- visible: false, pp_ <- visible: false"
+  >
+  </dot-and-box>
+  <div class="links">
+    <a href="https://github.com/dot-and-box/dot-and-box"
+    >Dot and Box repository</a
+    >
+    <a href="https://dot-and-box.github.io/dot-and-box/">Documentation</a>
+  </div>
+</div>
+
+
+
+</body>
+</html>
