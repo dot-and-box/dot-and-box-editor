@@ -42,13 +42,20 @@
 title: 'Topic cleanup.policy=delete'
 box id: topic text: topic at: [-2.2,-3.2] size: [7.4,6.4] color: white textColor: black borderColor: black align: left verticalAlign: top
 boxes ids: 'partition 0' 'partition 1' 'partition 2' at: [-2,-2] size: [7,1.5] span: 0.2 layout: row
-line id: A at: [-4,0.5] end: [-2.2,0.5] color: black width: 2
-line id: B at: [5,0.5] end: [7,-1.2] color: black width: 2 visible: false
-line id: C at: [5,-1.2] end: [7,-1.2] color: black width: 2 visible: false
-line id: D at: [5, 2.2] end: [7, 2.2] color: black width: 2 visible: false
-box id: consumer text: 'consumer group' at: [6.2,-3.2] size: [7.4,6.4] color: white textColor: black borderColor: black align: left verticalAlign: top visible: false
-box id: consumer1 text: 'consumer 1' at: [7,-2]  size: [5, 1.5] visible: false
-box id: consumer2 text: 'consumer 2' at: [7,1.4]  size: [5, 1.5] visible: false
+line id: A at: [-4,0.5] end: [-2.2,0.5] color: black width: 1
+line id: LC1_B at: [5,0.5] end: [7,-4.2] color: black width: 1 visible: false
+line id: LC1_C at: [5,-1.2] end: [7,-4.2] color: black width: 1 visible: false
+line id: LC1_D at: [5, 2.2] end: [7, -1.2] color: black width: 1 visible: false
+box id: cg_1 text: 'consumer group 1' at: [6.2,-6.2] size: [7,6.4] color: white textColor: black borderColor: black align: left verticalAlign: top visible: false
+box id: con_1 text: 'consumer 1' at: [7,-5]  size: [5, 1.5] visible: false
+box id: con_2 text: 'consumer 2' at: [7,-2]  size: [5, 1.5] visible: false
+box id: cg_2 text: 'consumer group 2' at: [6.2,1.2] size: [7,6.4] color: white textColor: black borderColor: black align: left verticalAlign: top visible: false
+box id: con_3 text: 'consumer 1' at: [7,2]  size: [5, 1.5] visible: false
+box id: con_4 text: 'consumer 2' at: [7,3.8]  size: [5, 1.5] visible: false
+box id: con_5 text: 'consumer 3' at: [7,5.6]  size: [5, 1.5] visible: false
+line id: LC2_B at: [5,0.5] end: [7,4.5] color: black width: 1 visible: false
+line id: LC2_C at: [5,-1.2] end: [7,2.8] color: black width: 1 visible: false
+line id: LC2_D at: [5, 2.2] end: [7, 6.4] color: black width: 1 visible: false
 dot id: p_1 text: ' k:1 ' at: [-4.8,0] radius: 25
 dot id: p_2  text: ' k:2 ' at: [-4.8,0] radius: 25
 dot id: p_3  text: ' k:3 ' at: [-4.8,0] radius: 25
@@ -72,14 +79,17 @@ p_ -> +[1,0], pp_ -> +[1,0]
 step: 'seventh'
 ppp_1 -> +[2,0], p_ -> +[1,0], pp_ -> +[1,0]
 ppp_1 -> +[1,1.7]
-step: 'consumer appears' duration: 0.1s condition: producer.selected
-consumer <- visible: true, consumer1 <- visible: true, consumer2 <- visible: true, B <- visible: true, C <- visible: true, D <- visible: true
+step: 'consumer 1 appears' duration: 0.1s condition: producer.selected
+cg_1 <- visible: true, con_1 <- visible: true, con_2 <- visible: true, LC1_ <- visible: true
 p_1 *-> pc_1, p_2 *-> pc_2, p_3 *-> pc_3
-step: 'consumer gets messages' condition: producer.selected
-ppp_ -> +[1,0], p_ -> +[1,0], pc_2 -> +[5,0], pc_1 -> +[5,-1.68], pc_3 -> +[6.2,0],  pp_ -> +[1,0]
+step: 'consumer 1 gets messages' condition: producer.selected
+ppp_ -> +[1,0], p_ -> +[1,0], pc_2 -> +[5,-3.4], pc_1 -> +[5,-4.68], pc_3 -> +[6.2,-3],  pp_ -> +[1,0]
 step: 'consumer gets messages 1' condition: producer.selected
-ppp_ -> +[1,0], p_ -> +[2,0], pp_ -> +[1,0], pp_1 *-> ppc_1, ppp_1 *-> pppc_1, ppc_1 -> +[5,-1.68], pppc_1 -> +[8,0], pc_ -> +[1,0]
+ppp_ -> +[1,0], p_ -> +[2,0], pp_ -> +[1,0], pp_1 *-> ppc_1, ppp_1 *-> pppc_1, ppc_1 -> +[5,-4.68], pppc_1 -> +[8,-3.4], pc_ -> +[1,0]
 p_ <- visible: false
+step: 'consumer 2 appears'
+cg_2 <- visible: true, con_3 <- visible: true, con_4 <- visible: true, con_5 <- visible: true,  LC2_ <- visible: true
+pp_1 *-> ppc2_1, ppc2_1 -> +[4,4.1], ppp_1 *-> pppc2_1, pppc2_1 -> +[7,4.1]
 step: 'retention with consumer' condition: producer.selected
 pp_ -> +[2,0], ppp_ -> +[5,0]
 pp_ <- visible: false, ppp_1 <- visible: false
