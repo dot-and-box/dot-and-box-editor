@@ -37,7 +37,7 @@
 
   <dot-and-box
           controls keyboard
-          style="height: 900px"
+          style="height: 1100px"
           code="
 title: 'Topic cleanup.policy=delete'
 box id: topic text: topic at: [-2.2,-3.2] size: [7.4,6.4] color: white textColor: black borderColor: black align: left verticalAlign: top
@@ -87,7 +87,7 @@ ppp_ -> +[1,0], p_ -> +[1,0], pc_2 -> +[5,-3.4], pc_1 -> +[5,-4.68], pc_3 -> +[6
 step: 'consumer gets messages 1' condition: producer.selected
 ppp_ -> +[1,0], p_ -> +[2,0], pp_ -> +[1,0], pp_1 *-> ppc_1, ppp_1 *-> pppc_1, ppc_1 -> +[5,-4.68], pppc_1 -> +[8,-3.4], pc_ -> +[1,0]
 p_ <- visible: false
-step: 'consumer 2 appears'
+step: 'consumer 2 appears' condition: producer.selected
 cg_2 <- visible: true, con_3 <- visible: true, con_4 <- visible: true, con_5 <- visible: true,  LC2_ <- visible: true
 pp_1 *-> ppc2_1, ppc2_1 -> +[4,4.1], ppp_1 *-> pppc2_1, pppc2_1 -> +[7,4.1]
 step: 'retention with consumer' condition: producer.selected
@@ -103,15 +103,6 @@ ppp_ -> +[5,0], pp_ -> +[2,0]
 ppp_ <- visible: false, pp_ <- visible: false"
   >
   </dot-and-box>
-  <div class="links">
-    <a href="https://github.com/dot-and-box/dot-and-box"
-    >Dot and Box repository</a
-    >
-    <a href="https://dot-and-box.github.io/dot-and-box/">Documentation</a>
-  </div>
 </div>
-
-
-
 </body>
 </html>
