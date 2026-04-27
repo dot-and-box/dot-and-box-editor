@@ -41,9 +41,24 @@
           code="
           title: 'Kafka Message Structure'
           box id: message text: 'Kafka Message Structure' at: [-2.2,-4.2] size: [7.4,11.4] color: white textColor: black borderColor: black align: left verticalAlign: top
-          boxes ids: 'key' 'payload' 'headers - kay value pairs' 'timestamp (CreateTime, LogAppendTime)' 'CRC' 'Offset' at: [-2,-3] size: [7,1.5] span: 0.2 layout: row
-"
+          boxes ids: 'key' 'payload' 'headers' 'timestamp' 'CRC' 'Offset' at: [-2,-3] size: [7,1.5] span: 0.2 layout: row
+          step: 'key'
+          key *-> key1, key1 -> +[8,0]
+          key1 <- text: 'może decydować o partycji - przydatne przy gwarancjach kolejności'
+          step: 'payload'
+          payload *-> payload1, payload1 -> +[8,0]
+          payload1 <- text: 'zasadnicza treść komunikatu'
+          step: 'headers'
+          headers *-> headers1, headers1 -> +[8,0]
+          headers1 <- text: 'nagłówki kolekcja key-value pair - metadane'
+          step: 'timestamp'
+          timestamp *-> timestamp1, timestamp1 -> +[8,0]
+          timestamp1 <- text: 'CreateTime lub LogAppendTime *nie* decyduje o kolejności wiadomości'
+          step: 'CRC & offset'
+          CRC *-> CRC1, CRC1 -> +[8,0], CRC1 <- text: '', CRC1 +-> +[0,1.7]
+          CRC1 <- text: 'Suma kontrolna i Offset - nadawane przez broker'
 
+"
 
   >
   </dot-and-box>
