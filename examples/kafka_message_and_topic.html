@@ -16,13 +16,6 @@
       width: 95%;
     }
 
-    .links {
-      position: relative;
-      padding-top: 20px;
-      padding-left: 5px;
-      display: flex;
-      margin-bottom: 5px;
-    }
 
     .links a {
       margin-right: 10px;
@@ -39,9 +32,11 @@
           controls keyboard
           style="height: 1100px"
           code="
-          title: 'Kafka Message Structure'
-          box id: message text: 'Kafka Message Structure' at: [-2.2,-4.2] size: [7.4,11.4] color: white textColor: black borderColor: black align: left verticalAlign: top
-          boxes ids: 'key' 'payload' 'headers' 'timestamp' 'CRC' 'Offset' at: [-2,-3] size: [7,1.5] span: 0.2 layout: row
+          title: 'Kafka Message and Topic'
+          box id: message text: 'Kafka Message' at: [-2.2,-4.2] size: [7.4,11.4] color: white textColor: black borderColor: black align: left verticalAlign: top
+          boxes ids: 'key' 'payload' 'headers' 'timestamp' 'CRC' 'offset' at: [-2,-3] size: [7,1.5] span: 0.2 layout: row
+          box id: message text: 'Kafka Topic' at: [-2.2,12.2] size: [7.4,6] color: white textColor: black borderColor: black align: left verticalAlign: top
+          boxes ids: 'partition 0' 'partition 1' 'partition 2'  at: [-2, 13] size: [7,1.5] span: 0.2 layout: row
           step: 'key'
           key *-> key1, key1 -> +[8,0]
           key1 <- text: 'może decydować o partycji - przydatne przy gwarancjach kolejności'
@@ -56,8 +51,9 @@
           timestamp1 <- text: 'CreateTime lub LogAppendTime *nie* decyduje o kolejności wiadomości'
           step: 'CRC & offset'
           CRC *-> CRC1, CRC1 -> +[8,0], CRC1 <- text: '', CRC1 +-> +[0,1.7]
-          CRC1 <- text: 'Suma kontrolna i Offset - nadawane przez broker'
-
+          CRC1 <- text: 'Suma kontrolna i Offset - kolejny numer wiadomości na partycji - nadawane przez broker'
+          step: 'topic'
+          message <- visible: false,  camera -> +[0,15], offset <- visible: false, CRC <- visible: false, CRC1 <- visible: false
 "
 
   >
